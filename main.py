@@ -14,9 +14,10 @@ from bs4 import BeautifulSoup as bs
 URL = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev'
 api_key = "4fw71cT9NmHBLiTdlrZJS5BZ6VaGfRZUdpzpDVssN6OImKE8WcKzLlpRqq1HY7C%2F6Y%2BV1M9mngsqOXYLXJ624w%3D%3D"
 api_key_decode = requests.utils.unquote(api_key)
-parameters = {"ServiceKey":api_key_decode, "numOfROws":10, "pageNo":1, "LAWD_CD":11110, "DEAL_YMD":201512}
-req = requests.get(URL, params = parameters)
+parameters = {"ServiceKey": api_key, "numOfROws": 10, "pageNo": 1, "LAWD_CD": 11110, "DEAL_YMD": 201512}
+req = requests.get(URL, params=parameters)
 
 soup = bs(req.content, 'html.parser')
 
 print(soup.prettify())
+

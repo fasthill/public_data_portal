@@ -35,3 +35,9 @@ soup = bs(req.content, 'html.parser')
 print(soup.prettify())
 print('*'*100)
 
+land = soup.find_all('item')
+
+for trade in land:
+    for t in trade.contents:
+        print(t, end=', ')
+    print("")

@@ -12,6 +12,8 @@
 
 import requests
 from bs4 import BeautifulSoup as bs
+import re
+import pandas as pd
 
 api_key = "4fw71cT9NmHBLiTdlrZJS5BZ6VaGfRZUdpzpDVssN6OImKE8WcKzLlpRqq1HY7C%2F6Y%2BV1M9mngsqOXYLXJ624w%3D%3D"
 URL = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?LAWD_CD=11110&DEAL_YMD=201512&serviceKey='+api_key
@@ -19,8 +21,8 @@ URL = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOB
 URL_O = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev'
 land_code=str(11110)
 deal_date = str(201512)
-page_no = str(2)
-numofrows = str(20)
+page_no = str(1)
+numofrows = str(1000)
 LAND_CODE = '?LAWD_CD=' + land_code
 DEAL_DATE = '&DEAL_YMD=' + deal_date
 PAGE_NO = '&pageNo=' + page_no
@@ -32,12 +34,27 @@ URL_ALL1 = URL
 req = requests.get(URL_ALL)
 
 soup = bs(req.content, 'html.parser')
-print(soup.prettify())
-print('*'*100)
+# print(soup.prettify())
+# print('*'*100)
 
 land = soup.find_all('item')
 
+def get_name_value(lv):
+    l_sp = re.split(r'[>]\s*', lv)  # make character for splitting using regular expression
+    name = l_sp[0].replace('<','').replace('>','')
+    # name = l_sp[0].replace('<','').replace('>','')
+    value = l_sp[-1]
+    return name, value
+
+land_list = []
 for trade in land:
-    for t in trade.contents:
-        print(t, end=', ')
-    print("")
+    tr_dict = {}
+    for tr in trade.contents[::2]:
+        name, value = get_name_value(tr)
+        tr_dict[name] = value
+        # print('name: {}, value: {}'.format(name,value))
+    land_list.append(tr_dict)
+
+df = pd.DataFrame(land_list)
+
+print(df)

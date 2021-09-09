@@ -68,6 +68,12 @@ print(df1)
 
 df.to_excel('data/nonpay.xlsx', sheet_name='헬스비급여')
 df_nonpay = pd.read_excel('data/nonpay.xlsx', sheet_name='헬스비급여')
+
+# add sheet
+df1 = df.copy()
+with pd.ExcelWriter('data/nonpay.xlsx', mode='a') as writer:  
+    df1.to_excel(writer, sheet_name='헬스비급여_2')
+    
 print(df_nonpay)
 
 file = open('data/nonpay.json', 'w+')

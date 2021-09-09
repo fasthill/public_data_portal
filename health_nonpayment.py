@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup as bs
 import xmltodict, json
 import re
 import pandas as pd
+import openpyxl
 
 api_key = "4fw71cT9NmHBLiTdlrZJS5BZ6VaGfRZUdpzpDVssN6OImKE8WcKzLlpRqq1HY7C%2F6Y%2BV1M9mngsqOXYLXJ624w%3D%3D"
 URL = 'http://apis.data.go.kr/B551182/nonPaymentDamtInfoService/getNonPaymentItemCodeList?pageNo=1&numOfRows=10&ServiceKey='+api_key
@@ -64,3 +65,10 @@ for item in jsonObj['item']:
 df1 = pd.DataFrame(jsonObj['item'])
 df1.rename(columns=payment_class, inplace=True)  # change columns names with dictionary
 print(df1)
+
+df.to_excel('data/nonpay.xlsx', sheet_name='헬스비급여')
+df_nonpay = pd.read_excel('data/nonpay.xlsx', sheet_name='헬스비급여')
+print(df_nonpay)
+
+file = open('data/nonpay.json', 'w+')
+file.write(json.dumps(jsonObj['item']))

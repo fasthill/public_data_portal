@@ -41,7 +41,7 @@ land = soup.find_all('item')
 
 def get_name_value(lv):
     l_sp = re.split(r'[>]\s*', lv)  # make character for splitting using regular expression
-    name = l_sp[0].replace('<','').replace('>','')
+    name = re.sub('[<>]','',l_sp[0])
     # name = l_sp[0].replace('<','').replace('>','')
     value = l_sp[-1]
     return name, value

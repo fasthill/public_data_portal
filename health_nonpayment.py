@@ -9,7 +9,7 @@
 
 import requests
 from bs4 import BeautifulSoup as bs
-import xmltodict
+import xmltodict, json
 import re
 import pandas as pd
 
@@ -53,3 +53,14 @@ payment_class = define_columns()  # columns name change
 df.rename(columns=payment_class, inplace=True)  # change columns names with dictionary
 
 print(df)
+
+jsonString = json.dumps(dict['response']['body']['items'], ensure_ascii=False)
+jsonObj = json.loads(jsonString)
+# print(jsonObj)
+
+for item in jsonObj['item']:
+    print(item)
+
+df1 = pd.DataFrame(jsonObj['item'])
+df1.rename(columns=payment_class, inplace=True)  # change columns names with dictionary
+print(df1)

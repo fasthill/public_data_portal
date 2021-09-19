@@ -10,12 +10,14 @@
 # # 시크릿 발급하기
 # * 한 입에 웹 크롤링
 
+import os
 import requests
 from bs4 import BeautifulSoup as bs
 import re
 import pandas as pd
 
-api_key = "4fw71cT9NmHBLiTdlrZJS5BZ6VaGfRZUdpzpDVssN6OImKE8WcKzLlpRqq1HY7C%2F6Y%2BV1M9mngsqOXYLXJ624w%3D%3D"
+# api_key 숨김방법
+api_key = os.environ['DATA_GO_API_KEY']  # win10 환경변수 설정 후 사용 고급시스템, 환경변수, 시스템변수, 콜론없이 string만 입력
 URL = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev?LAWD_CD=11110&DEAL_YMD=201512&serviceKey='+api_key
 
 URL_O = 'http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTradeDev'
